@@ -1,0 +1,428 @@
+\documentclass[11pt]{article}
+%-------------------------------------------------------------------------------------------------%
+\usepackage[utf8]{inputenc}
+\usepackage[style = geschichtsfrkl]{biblatex}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{tocloft}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hologo}
+\usepackage[hidelinks]{hyperref}
+%-------------------------------------------------------------------------------------------------%
+\graphicspath{ {./images/} }
+\addbibresource{final_project.bib}
+%-------------------------------------------------------------------------------------------------%
+\renewcommand\cftsecpagefont{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand\cftsecdotsep{\cftdot}
+\renewcommand\cftsubsecdotsep{\cftdot}
+\pretitle{
+  \begin{center}
+    \Huge\bfseries }
+\renewcommand\maketitlehookb{
+  \begin{center}
+    \Large {An Investigatory Project Report}\\[0.25in] \includegraphics[scale =
+      0.75]{tos_logo.jpeg}\\[0.25in] \bfseries {Submitted by}
+  \end{center}
+}
+\predate{}
+\postdate{}
+\renewcommand\maketitlehookd{
+  \begin{center}
+    \large{ The Orchid School\\ Baner Pune 411045\\[0.3cm] \textbf{2020-2021}\\ }
+  \end{center}
+}
+%-------------------------------------------------------------------------------------------------%
+\title{Determination of Caffeine Content in Tea Samples}
+\author{ Nebhrajani, Aditya V.}%\\ Magapu,Abhimanyu\\ Sharma, Galav\\ }
+\date{}
+%-------------------------------------------------------------------------------------------------%
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+
+
+{\center\includegraphics[scale = 0.5]{tos_logo.jpeg}\\[0.25in]} {\center\LARGE The Orchid School\\}
+{\center\huge\textbf {Certificate}\\[0.5cm]}
+
+This is to certify that Aditya V. Nebhrajani of Class XII I1 has successfully completed the Chemistry
+Investigatory Project in the partial fulfillment of curriculum of Central Board of Secondary
+Education (CBSE) leading to award of Annual Examination of the year 2020-2021.\\[1cm]
+
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X  >{\centering\arraybackslash}X}
+External Examiner & Teacher In-Charge \\ & (Pooja Sharma)\\[1.5cm] Unit Head & Principal \\ (Netre
+Kulkarni) & (Namrata Majhail) \\
+\end{tabularx}
+\end{center}
+
+\newpage
+
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+No project can ever be completed without the graceful contribution of many, many people.\\
+
+I would, first and foremost, like to express my gratitude to our chemistry teacher, Ms. Pooja
+Sharma for her valuable advice and inputs which enhanced the quality of my work. This project could
+not have been completed successfully without her help. I would also like to thank Netre Di for her
+encouragement and support, and our respected principal Namrata Di for giving me an opportunity to
+work on such an intriguing topic. I would also like to acknowledge our lab assistant (?) Di for
+her willingness in providing the necessary lab equipment.\\
+
+This entire project was written on open source software, using open source programming and markup
+languages. I am hence deeply indebted to the open source community at large. I would like to
+separately acknowledge the Emacs\cite{emacs}, \LaTeX\ \cite{latex}, \hologo{BibTeX} \cite{bibtex}, and the
+\TeX\ StackExchange community\cite{texSE} for their powerful and brilliant tools.\\
+
+Lastly, I would like to thank our parents for their love and guidance without which nothing can be
+accomplished.
+
+\newpage
+\tableofcontents
+
+\newpage
+\listoffigures
+\listoftables
+???
+
+
+\newpage
+\section{Introduction}
+
+\subsection{Tea}
+Tea is the second most widely consumed beverage in the world, second
+only to water \cite{teapop}. The origin story of tea is an interesting
+one, a mix of myth and fact and colored by ancient concepts of
+spirituality and philosophy. \cite{teastory}$^,$\cite{teawiley}\\
+According to Chinese legend, the history of tea began in 2737 B.C.E. when the Emperor Shen Nong, a
+skilled ruler and scientist, accidentally discovered tea. While boiling water in the garden, a leaf
+from an overhanging wild tea tree drifted into his pot. The Emperor enjoyed drinking the infused
+water so much that he was compelled to research the plant further. Legend has it that the Emperor
+discovered tea's medicinal properties during his research. \\
+Indian history attributes the discovery of tea to Prince Bodhi-Dharma, an Indian saint who founded
+the Zen school of Buddhism. In the year 520 A.D, he left India to preach Buddhism in China. To prove
+some Zen principles, he vowed to meditate for nine years without sleep. It is said that towards the
+end of his meditation, he fell asleep. Upon awaking, he was so distraught that he cut off his
+eyelids, and threw them to the ground. Legend has it that a tea plant sprung up on the spot to
+sanctify his sacrifice. \cite{teastory} \\
+Tea is also an important part of history, from the East India Company to the Boston Tea
+Party. \cite{teawiley} \\
+Like Europe, tea initially came to America in the mid-1600s by way of the Dutch settlement of New
+Amsterdam. The colony was captured by England in 1664 and renamed New York, where the tea trade
+flourished amongst colonial women and wealthy colonists.
+At the same time, the British East India Company had persuaded the English Parliament to implement
+heavy taxes on tea by way of the Tea Act, to bolster up their failing financial position. This
+allowed them to ship tea duty-fee directly to the colonists and profit by excluding the colonial
+merchants. \cite{eicboston}\\
+This created a tense political environment in America, resulting in dissent and the popularization
+of the notion of `no taxation without representation' amongst the colonies. Political tensions came
+to a climax with the Boston Tea Party, as colonists protested England's high taxes by dressing as
+Native Americans and dumping tea into the water off The Company's trading ships.
+The American Revolution that followed in 1776 may have set The Company back, but it still managed to
+survive due to its immense size. However, Richard Twining and thousands of independent tea merchants
+organized a campaign to reveal the Company's corrupt practices and pressured the English government
+to end their monopoly. This caused The Company to eventually crumble in 1874. \cite{eicboston} \\
+All in all, tea is a vital part of human culture, especially Eastern. Naturally, as the world became
+more and more interconnected via trade routes, colonisation, and now, the Internet, tea has become a
+way of connecting people of all walks of life, be it a strong black Assam tea or the light green
+Japanese Sencha. Because of this variety, many tea-tasting traditions came up as well. Japanese tea
+traditions are also very elegant, sometimes taking hours to drink a simple cup of tea. This has
+observed psychological benefits, and is considered an art form. \cite{ceremony} \\
+Recently, engineers tested an electronic nose and tongue by tea-tasting as
+well. \cite{electronicnose} \\
+This only reiterates how aware we must be of the tea we drink. This paper finds its
+context and relevance here. I attempt to analyse the caffeine content of some popular teas using a
+non-laborious method.\\
+
+\subsection{Caffeine}
+Caffeine is the world's most widely consumed psychoactive drug. Its use is legal and unregulated in
+most parts of the world. Its effects on human health are mixed \cite{healtheffects} and is primarily
+used as a natural stimulant. Caffeine blocks the effect of adenosine, which is a neurotransmitter
+that relaxes the brain. Caffeine helps stay awake by connecting to adenosine receptors in the brain
+without activating them. This blocks the effects of adenosine, leading to a reduction in percieved
+tiredness. \\
+Caffeine is found primarily in the tea, coffee, and cocoa plants. It's estimated \cite{80} that 80\%
+of the world's population consumes caffeine on a daily basis. This number is higher for North
+America, equal to almost 90\% of the population. A caffeine intake of 200 mg per dose, and up to 400
+mg per day, is generally considered safe. \\
+Caffeine consumption and use, however has evolved from its humble origins in tea and
+coffee. Caffeine is increasingly being added to soft drinks (Coca-Cola), and foods. This has led to
+deeper research into its health effects, which are of interest to us. \\
+For years, caffeine has been the “drug” of choice in many cultures. Caffeine has been considered
+socially acceptable because it is found in drinks like tea or coffee. People who consume a lot of
+caffeine-based drinks may think they are addicted -- depending heavily on the substance. But if they
+stop using such drinks, they will experience only mild symptoms of withdrawal for a few days.
+The real addiction may be emotional. Many people claim they cannot start their day unless they get
+their “fix,” which is, in many cases, a cup or two of coffee or tea. Some people drink tea throughout
+the day. Even young people who may not touch tea or coffee are still putting caffeine into their
+bodies when they have energy drinks, which have high amounts of caffeine.\\
+Many studies have been done on the addictiveness of caffeine, and most conclude that caffeine
+addicts people in a way not dissimilar to drugs such as nicotine and cocaine. However, it is also
+linked to reducing oral and throat cancers. As with all natural substances, the dose makes the
+poison. Caffeine intake for each person should be in moderation. \cite{caffhealth}$^,$
+\cite{caffhealth2}$^,$ \cite{caffhealth3}\\
+The beautiful cultures caffeine creates are central to the human experience: evidenced by phrases
+such as `meeting over coffee', `drinking ch'a (chai or tea)', and the popularity of multinational
+chains such as Starbucks. \\
+
+
+\newpage
+
+\section{Aim}
+
+\subsection{Formal Aim}
+The primary aim of this paper is to determine the caffeine content in some tea samples. The
+secondary aim of this paper is to determine the acid content in the tea leaves as well. I attempt
+to find a relation between the caffeine content in a tea and its acidity.
+
+\subsection{General Objectives}
+The conception of this paper has fulfilled far more than the formally stated aims. Some of these
+greater general objectives are stated below. \\
+The creation of this paper allowed the author to gain a deeper understanding of the
+procedures of laboratory filtration and analysis. Using this data to then extrapolate the presence
+and quantity of caffeine in various teas also taught the author rigourous application of the
+scientific method. The author was gracefully allowed by The Orchid School and the teachers to use
+the laboratory, which greatly augmented this paper and its author. \\
+The actual writing of the paper after performing the experiment gave the
+author insight into the correct use of technical language and tools used by professional scientists
+and engineers. \\
+In toto, the creation of this paper and the performance of the experiment(s) related to it greatly
+enhanced the author's scientific understanding and scope of knowledge.
+
+
+\newpage
+
+\section{Theory}
+
+\subsection{Caffeine}
+
+Caffeine is an odourless, white-coloured (needles or powder), bitter purine which acts as a CNS (central nervous system)
+stimulant. Its IUPAC name is \textbf{    1,3,7-Trimethylpurine-2,6-dione} (common name: Guaranine
+Methyltheobromine), and the molecular formula is
+$\mathrm{C_8H_{10}N_4O_2}$. \cite{struct1}$^,$\cite{struct2}$^,$\cite{struct3} \\
+
+%% \begin{figure}[h]
+%% \centering
+%% \includegraphics[scale = 0.1]{struct.png}\\
+%% \caption{Molecular structure of caffeine}
+%% \end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{struct.png}
+  \caption{Molecular structure\cite{sfig1}}
+  \label{struct1}
+\end{subfigure}
+\hspace{.14\textwidth}
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{struct2.png}
+  \caption{Ball-and-stick model\cite{sfig2}}
+  \label{struct2}
+\end{subfigure}
+\caption{Structure of Caffeine}
+\label{struct}
+\end{figure}
+
+\paragraph{Physical Properties}
+Caffeine has 49.98\% carbon, 28.85\% nitrogen, 16.48\% oxygen and  5.19\% hydrogen. Caffeine’s molar
+mass is about $194.19$ g/mol. It has a melting point of $\mathrm{235^{\circ}C}$ to
+$\mathrm{238^{\circ}C}$. The boiling point of caffeine is $\mathrm{178^{\circ}C}$ and it has a
+density of $1.23$ $\mathrm{g/cm^3}$. With a pH of 6.9, it is slightly basic.
+
+\paragraph{Organic Classification}
+Caffeine does not contain any stereogenic centers and hence is classified as an achiral
+molecule. The xanthine core of caffeine contains two fused rings, pyrimidinedione\cite{chem1} and
+imidazole.\cite{chem2} The pyrimidinedione in turn contains two amide functional groups that exist
+predominately in a zwitterionic\cite{chem3} resonance with the location from which the nitrogen atoms are double
+bonded to their adjacent amide carbons atoms. Hence, all six of the atoms within the pyrimidinedione
+ring system are $\mathrm{sp^2}$ hybridized and planar. Therefore, the fused 5,6 ring core of
+caffeine contains a total of ten $\pi$ electrons and hence according to Hückel's rule is aromatic.
+
+\subsubsection{Uses of Caffeine}
+\paragraph{Performance enhancement \cite{effects1}}
+Caffeine reduces fatigue and drowsiness. At normal doses, caffeine has variable effects on learning
+and memory, but it generally improves reaction time, wakefulness, concentration, and motor
+coordination. The amount of caffeine needed to produce these effects varies between individuals.\\
+Caffeine improves athletic performance in aerobic (especially endurance sports) and anaerobic
+conditions. Moderate doses of caffeine (around 5 mg/kg) can improve sprint performance, cycling and
+running time trial performance, endurance (i.e., it delays the onset of muscle fatigue and central
+fatigue), and cycling power output. Caffeine increases the metabolic rate in adults. \cite{caffwiki}
+\paragraph{Medical}
+Caffeine is used as a medicine in combination with other drugs. It is sometimes used to help
+premature babies to breathe. The short-term risk of this treatment seems to be that the babies
+treated gain less weight than usual.\\
+Caffeine is sometimes given to people after a lumbar puncture. This is used a test to see if someone has
+meningitis. s used in many over the counter medicines, such as Excedrin, Midol and Anacin. The
+caffeine in a cup of coffee (100–130 mg) improved pain relief when combined with paracetamol or
+ibuprofen in 5–10\% of people. When combined with other analgesics, caffeine can help to alleviate
+headaches and cramps. \cite{caffwiki}
+\subsubsection{Effects of Caffeine}
+\paragraph{Primary Short-Term Effects \cite{effects}} Caffeine is consumed by humans in coffee, tea, and cocoa
+products. Within 5-30 minutes of consuming caffeine, the following effects appear.
+\begin{itemize}
+  \item Increased alertness and activity
+  \item Restlessness, excitability and dizziness
+  \item Anxiety and irritability
+  \item Dehydration and dysuria
+  \item Elevation in body temperature
+  \item Faster breathing
+  \item Tachycardia (increased heart rate)
+  \item Headache and lack of concentration
+  \item Stomach pains
+\end{itemize}
+\paragraph{Adverse Long-Term Effects \cite{effects}} Caffeine's widespread use has resulted in health concerns, primarily
+because of its addictive nature. Some of these are listed below.
+\begin{enumerate}
+  \item{Physical}
+    \begin{itemize}
+      \item Coffee and caffeine can affect gastrointestinal motility and gastric acid secretion.
+      \item Caffeine in low doses may cause weak bronchodilation for up to four hours in asthmatics.
+      \item Doses of caffeine equivalent to the amount normally found in standard servings of tea,
+        coffee and carbonated soft drinks appear to have no diuretic action.
+      \item  However, acute ingestion of caffeine in large doses (at least 250–300 mg, equivalent to
+        the amount found in 2–3 cups of coffee or 5–8 cups of tea) results in a short-term
+        stimulation of urine output in individuals who have been deprived of caffeine for a period
+        of days or weeks.\cite{Maughan2003CaffeineIA}
+    \end{itemize}
+  \item{Psychological}
+    \begin{itemize}
+      \item Minor undesired symptoms from caffeine ingestion not sufficiently severe to warrant a
+        psychiatric diagnosis are common and include mild anxiety, jitteriness, insomnia, increased
+        sleep latency, and reduced coordination.
+      \item Minor undesired symptoms from caffeine ingestion not sufficiently severe to warrant a
+        psychiatric diagnosis are common and include mild anxiety, jitteriness, insomnia, increased
+        sleep latency, and reduced coordination. Caffeine can have negative effects on
+        anxiety disorders. According to a 2011 literature review,
+        caffeine use is positively associated with anxiety and panic disorders.\cite{Vilarim2011CaffeineCT}
+    \end{itemize}
+  \item{Addiction}
+    \begin{itemize}
+      \item  Some diagnostic models, such as the ICDM-9 and ICD-10, include a classification of
+      caffeine addiction under a broader diagnostic model. Some state that certain users can become
+      addicted and therefore unable to decrease use even though they know there are negative health
+      effects.
+    \end{itemize}
+\end{enumerate}
+\subsection{Determination of Caffeine and Acid Content in Tea}
+\paragraph {Caffeine} Caffeine is present in tea leaves up to
+4% and can be extracted by first boiling the
+tea leaves with water which dissolves many
+glycoside compounds in addition to
+caffeine. The clear solution is then treated
+with lead acetate to precipitate the
+glycoside compounds in the form of lead
+complex. Caffeine is then extracted from the clear filtrate by chloroform treatment. \cite{man}$^,$\cite{man2}
+
+\paragraph{Acid}
+The attempt is to find the general acidic content of tea and not specifically tannic acid. For this
+reason, we do not separately extract tannic acid using $\mathrm{CaCO_3}$. In fact, most teas \emph{do
+  not} contain tannic acid. Tea contains tannins, a class of astringent, polyphenolic
+biomolecules of which tannic acid is a member. Some teas do not contain tannic acid, such as green
+tea and black tea. Many scholarly articles and textbooks use tannic acid and tannins as
+interchangeable terms, which is incorrect. As our interest is not in the nature of tannins in the
+tea but instead in the relation between the general acidic content and caffeine content of the tea,
+we skip over this confusion and simply titrate a heated extract of tea leaves and water against an
+N/50 NaOH solution. \cite{man}$^,$\cite{post}$^,$\cite{Martin1983}
+
+
+\newpage
+
+\section{Experiment}
+
+\subsection{Determination of Caffeine Content}
+\subsubsection{Materials Required}
+
+\paragraph{Apparatus}
+Beakers, pipettes, burner, separating funnel, filter paper, weight box, analytical balance, spatula, funnel.
+\paragraph{Chemicals}
+Tea samples, lead acetate, chloroform, water.
+
+\subsubsection{Procedure}
+\begin{enumerate}
+\item 50 grams of tea leaves were taken as sample and 150 ml of water was added to it in a
+beaker.
+\item  The beaker was then heated up to extreme boiling.
+\item The solution was filtered and lead acetate was added to the filtrate, leading to the formation
+  of a curdy brown coloured precipitate.
+\item Lead acetate was added until no more precipitate could be formed. The solution was again filtered.
+\item The filtrate so obtained was heated until the quantity left was 50 ml.
+\item Then the solution left was allowed to cool.
+\item After cooling, 20 ml of chloroform was added to it.
+\item Soon after, two layers appeared in the separating funnel. The residue left behind was caffeine.
+\item Then, weighed it and recorded the observations.
+\item The same procedure was performed with different samples of tea leaves.
+\end{enumerate}
+\subsubsection{Observations}
+
+\subsection{Determination of Acid Content}
+\subsubsection{Materials Required}
+\paragraph{Apparatus}
+Beaker, pipette, burette stand, conical flask, burner, measuring flask, separating funnel, filter
+paper, weight box, analytical balance.
+\paragraph{Chemicals}
+Tea samples, water, NaOH, phenolphthalein indicator.
+\subsubsection{Procedure}
+\begin{enumerate}
+\item 10 gm of tea leaves were mixed in a beaker containing 200 ml of water.
+\item The contents of the beaker were then heated constantly for about 30 minutes and the extract
+  filtered out.
+\item 5 ml of tea extract was taken in a conical flask and added to 20 ml of distilled water.
+\item It was now shaken to prepare a homogeneous mixture and titrated against N/50 NaOH solution.
+\item The same procedure was carried for the other samples of tea leaves.
+\end{enumerate}
+\subsubsection{Observations}
+\paragraph{Calculations}
+
+\newpage
+
+\section{Results}
+From the experiment(s), we conclude the following.
+\begin{enumerate}
+\item The amount of caffeine present in the tea samples is inversely proportional to the strength of the
+  acids in the tea extract.
+\item Different tastes of different teas is due to the variation of amount of caffeine and acids
+  present.
+\end{enumerate}
+
+
+\newpage
+
+\section{Author's Note}
+
+This paper is written as a submission to the Central Board of Secondary Education (India) as a
+Chemistry Investigatory Project for the year 2020-21. \\
+It was noticed by the author of this paper that generally, investigatory projects, which are an
+amazing opportunity to showcase research and academia-related talent, typically end up being
+plagiarised experiments from textbooks or the World Wide Web. In fact, the top ten results of
+an Internet search for this very project: `determination of caffeine content in tea samples', are all
+nearly identical papers, with the same content and errors. I hence perceive that on a general
+basis, students' participation is lacking in investigatory projects.\\
+This paper is an attempt to fully utilize the opportunity gracefully granted to me by CBSE and The
+Orchid School, and to raise the bar for all students. It is my hope that this will inspire new and
+fruitful research at the secondary level of education.\\
+It has been my attempt to write this paper in the same way as a scholarly article insofar as I
+could. If there are any errors or discrepancies, they remain my own.\\
+I thank you for taking the time to go through this paper, and I hope you enjoyed reading it as much
+as I enjoyed writing it.\\
+
+\newpage
+
+\renewcommand\refname{Bibliography}
+\printbibliography
+\addcontentsline{toc}{section}{Bibliography}
+\end{document}
