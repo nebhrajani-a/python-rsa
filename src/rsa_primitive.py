@@ -15,19 +15,18 @@ def get_bits():
             print("ERR: Enter a valid key length.")
 
 def gen_keys(bits):
-    global p, q, n, e, d
     p = pg.driver(bits//2)
     q = pg.driver(bits//2)
     n = p*q
     phi = mf.lcm((p-1), (q-1))
     e = 65537
     d = mf.modinv(e, phi)
-    return [p, q, n, e, d]
+    return [p, q, n, e, d, bits]
 
 def enc(m, e, n):
     c = pow(m, e, n)
     return c
 
-def dec(c):
+def dec(c, d, p, q):
     m = mf.cra(c, d, p, q)
     return m

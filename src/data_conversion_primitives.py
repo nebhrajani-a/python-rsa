@@ -1,6 +1,14 @@
 
-def PT2OS(text):
+def nochunk_PT2OS(text):
     return [ord(i) for i in text]
+
+def PT2OS(text, l):
+    ret = [ord(i) for i in text]
+    l_2 = len(ret)
+    if l_2 < l:
+        spaces = [32] * (l - l_2)
+        ret.extend(spaces)
+    return ret
 
 def OS2PT(stream):
     return ''.join(chr(i) for i in stream)
@@ -34,3 +42,22 @@ def read_in_chunks(file_object, chunk_size):
         if not data:
             break
         yield data
+
+def line_prepender(filename, line):
+    with open(filename, 'r+') as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write(line.rstrip('\r\n') + '\n' + content)
+
+def l_reader(filename):
+    f = open(filename, 'r')
+    line = f.readline()
+    l_s = (line[2:-1:])
+    l_s = l_s.strip('][').split(', ')
+    return l_s
+
+def line_killer(filename):
+    with open(filename, 'r') as fin:
+        data = fin.read().splitlines(True)
+    with open(filename, 'w') as fout:
+        fout.writelines(data[1:])
