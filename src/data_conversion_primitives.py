@@ -16,11 +16,11 @@ def OS2PT(stream):
 def OS2IP(X):
     l = len(X)
     i = 1
-    sum = 0
+    sum_ = 0
     for X_i in X:
-        sum = X_i*(256**(l-i)) + sum
+        sum_ = X_i*(256**(l-i)) + sum_
         i += 1
-    return sum
+    return sum_
 
 def I2OSP(x, l):
     if x >= 256**l:
@@ -42,22 +42,3 @@ def read_in_chunks(file_object, chunk_size):
         if not data:
             break
         yield data
-
-def line_prepender(filename, line):
-    with open(filename, 'r+') as f:
-        content = f.read()
-        f.seek(0, 0)
-        f.write(line.rstrip('\r\n') + '\n' + content)
-
-def l_reader(filename):
-    f = open(filename, 'r')
-    line = f.readline()
-    l_s = (line[2:-1:])
-    l_s = l_s.strip('][').split(', ')
-    return l_s
-
-def line_killer(filename):
-    with open(filename, 'r') as fin:
-        data = fin.read().splitlines(True)
-    with open(filename, 'w') as fout:
-        fout.writelines(data[1:])

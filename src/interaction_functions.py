@@ -68,8 +68,8 @@ def login():
 def message_loc_get():
     while True:
         try:
-            location = int(input("\n[1] File or \n[2] String\n[3] Delete account\n> "))
-            if location not in (1, 2, 3):
+            location = int(input("\n[1] File\n[2] String\n[3] Delete account\n[4] Exit\n> "))
+            if location not in (1, 2, 3, 4):
                 print("ERR: Enter a valid choice.")
             else:
                 return location
@@ -115,3 +115,15 @@ def get_decrypt_list(user):
 def del_user():
     user = login()
     ud.drop_row(user)
+
+def get_reciever():
+    while True:
+        try:
+            user = str(input("Enter recipient username:\n> "))
+            if ud.search_column('username', user):
+                break
+            else:
+                print("Username doesn't exist.")
+        except (TypeError, ValueError):
+            print("Enter a valid username.")
+    return user

@@ -28,7 +28,7 @@ def get_field(key, column):
     usr_data = read_table()
     x = usr_data.username[usr_data.username.str.contains('|'.join(key.split(' ')))]
     index = x.index[0]
-    return usr_data.iloc[index][column]
+    return usr_data.loc[index][column]
 def get_index(key, column):
     usr_data = read_table()
     x = usr_data.username[usr_data.username.str.contains('|'.join(key.split(' ')))]
@@ -37,5 +37,9 @@ def get_index(key, column):
 
 def drop_row(key):
     usr_data = read_table()
-    index = get_index(key, 'user')
-    usr_data.drop([index], inplace = True)
+    index_ = get_index(key, 'user')
+    usr_data.drop(index=index_, inplace = True)
+    save_table(usr_data)
+
+usr_data = read_table()
+print(usr_data)
