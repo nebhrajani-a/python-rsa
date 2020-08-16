@@ -10,6 +10,7 @@ if state == 1:
     data = intfunc.signup_core()
     bits = rsa.get_bits()
     pqned = rsa.gen_keys(bits)
+    print("Keys successfully generated.")
     intfunc.signup_pqned(data, pqned)
 
 user = intfunc.login()
@@ -91,7 +92,7 @@ while True:
 
         m = dcp.I2OSP(m, chunk_size)
         m = dcp.OS2PT(m)
-        print("Decrypted string is: ", m)
+        print("Decrypted string is:", m)
 
     elif operation == 3:
         path = intfunc.get_path()
@@ -109,7 +110,7 @@ while True:
                     if sure == "y":
                         intfunc.del_user()
                         print("All okay. Account successfully deleted.")
-                        break
+                        exit()
                     else:
                         break
             except (TypeError, ValueError):

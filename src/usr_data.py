@@ -40,6 +40,3 @@ def drop_row(key):
     index_ = get_index(key, 'user')
     usr_data.drop(index=index_, inplace = True)
     save_table(usr_data)
-
-usr_data = read_table()
-print(usr_data)

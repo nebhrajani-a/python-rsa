@@ -41,7 +41,6 @@ def signup_core():
 def signup_pqned(data, pqned):
     data.extend(pqned)
     ud.add_data(data)
-    print(ud.read_table())
 
 def login():
     while True:
