@@ -1,4 +1,3 @@
-
 def nochunk_PT2OS(text):
     return [ord(i) for i in text]
 
@@ -6,7 +5,9 @@ def PT2OS(text, l):
     ret = [ord(i) for i in text]
     l_2 = len(ret)
     if l_2 < l:
-        spaces = [32] * (l - l_2)
+        newline = [10]
+        spaces = [0] * (l - l_2 -1)
+        ret.extend(newline)
         ret.extend(spaces)
     return ret
 
@@ -42,3 +43,20 @@ def read_in_chunks(file_object, chunk_size):
         if not data:
             break
         yield data
+
+def kill_nulls(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    f.close()
+    lines.pop()
+    f = open(filename, 'w')
+    for line in lines:
+        f.write(line)
+    f.close()
+    f = open(filename, 'r')
+    string = f.read()
+    f.close()
+    string = string[:-1]
+    f = open(filename, 'w')
+    f.write(string)
+    f.close()

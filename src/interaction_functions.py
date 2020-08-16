@@ -1,6 +1,7 @@
 import usr_data as ud
 import data_conversion_primitives as dcp
 from getpass import getpass
+import os.path
 
 def login_or_signup():
     while True:
@@ -65,11 +66,11 @@ def login():
             print("Enter a valid passphrase.")
     return user
 
-def message_loc_get():
+def get_operation():
     while True:
         try:
-            location = int(input("\n[1] File\n[2] String\n[3] Delete account\n[4] Exit\n> "))
-            if location not in (1, 2, 3, 4):
+            location = int(input("\n[1] File\n[2] String\n[3] Add path\n[4] Delete account\n[5] Exit\n> "))
+            if location not in (1, 2, 3, 4, 5):
                 print("ERR: Enter a valid choice.")
             else:
                 return location
@@ -79,7 +80,7 @@ def message_loc_get():
 
 def get_input_file():
     while True:
-        filename = input("File A?\n> ")
+        filename = str(input("Input file?\n> "))
         try:
             with open(filename):
                 return filename
@@ -87,7 +88,7 @@ def get_input_file():
             print("Incorrect file or path.")
 
 def get_output_file():
-    filename = input("File B?\n> ")
+    filename = str(input("Output file?\n> "))
     return filename
 def encrpyt_or_decrypt():
     while True:
@@ -127,3 +128,11 @@ def get_reciever():
         except (TypeError, ValueError):
             print("Enter a valid username.")
     return user
+
+def get_path():
+    while True:
+        path = str(input("Path?\n> "))
+        if os.path.isdir(path):
+            return path
+        else:
+            print("Not a valid path.")
