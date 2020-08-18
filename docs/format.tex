@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass{article}
 %-------------------------------------------------------------------------------------------------%
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -103,7 +103,6 @@ accomplished.
 
 \newpage
 \listoffigures
-\listoftables
 
 
 \newpage
@@ -245,17 +244,19 @@ paper and the Logjam attack was used to cryptanalyze Diffie-Hellman.
 Diffie-Hellman inspired a much more powerful algorithm, the RSA asymmetric key encryption.
 
 \subsubsection{RSA Encryption}
-RSA encryption, named after Ron \textbf{R}ivest, Adi \textbf{S}hamir, and Leonard \textbf{A}dleman,
-uses the concept of each user having two keys: one public key and one private key. Assume these keys
-are pre-generated. Say Bob wants to send a message $M$ to Alice. Alice's public key is a tuple of
-integers $(n, e)$ and her private key is an integer $(d)$. The public key is available to everyone, maybe Alice
-even keeps it in her Instagram bio.
+\label{section:rsamath}
+RSA encryption\cite{rivest1978method}, named after Ron \textbf{R}ivest, Adi \textbf{S}hamir, and
+Leonard \textbf{A}dleman, uses the concept of each user having two keys: one public key and one
+private key. Assume these keys are pre-generated. Say Bob wants to send a message $M$ to Alice.
+Alice's public key is a tuple of integers $(n, e)$ and her private key is an integer $(d)$. The
+public key is available to everyone, maybe Alice even keeps it in her Instagram bio.
 \begin{enumerate}
 \item Bob converts his message $M$ into an integer $m$ using a pre-decided scheme (specified by a
-  standard such as PKCS\#1).
+standard such as PKCS\#1).
 \item Bob gets Alice's public key, $(n, e)$ and computes $$m^e \equiv c \pmod{n}$$ He then sends
-  Alice $c$ over the communication medium.
-\item Alice recovers $m$ from $c$ by using her private key $d$, thus: $$c^d \equiv (m^e)^d \equiv m \pmod{n}$$
+Alice $c$ over the communication medium.
+\item Alice recovers $m$ from $c$ by using her private key $d$, thus: $$c^d \equiv (m^e)^d \equiv m
+\pmod{n}$$
 \item Alice then reverses the message-to-integer scheme and gets $M$ from $m$.
 \end{enumerate}
 
@@ -453,16 +454,264 @@ a liar. We instead make the test probability based: we choose a random non-zero 
 Since it might be a strong liar, we repeat the test for a different value of $a$. The greater the
 number of iterations we check, the higher is the probability of generating a prime $n$.
 
+The time complexity of the Miller-Rabin test is $\mathcal{O} (k \log^3{n})$, which means it is a
+polynomial time algorithm, a vast improvement over the simple method discussed earlier.
+
 \paragraph{Final Implementation} We first generate a random number $n$ using Python's
 \texttt{secrets} module. \footnote{The \texttt{random} module is not suitable for cryptographic
-applications. Secrets instead calls the system's most random generator, such as /dev/random on
-Linux.} We first implement a low level checker:
+applications. Secrets instead calls the system's most secure source of randomness, such as /dev/random on
+Linux.} We first implement a low level checker: we divide the randomly generated $n$ by every
+element in a static list of the first 2000 primes. This eliminates obvious composite numbers early
+on, speeding up our work. Also, this prevents some strong liars in Miller-Rabin. This is implemented
+as follows:
+
+\begin{minted}{python}
+import first_primes as fp
+import secrets
+
+def gen_random(l):
+    '''Generate a random number l bits long.'''
+    randgenerator = secrets.SystemRandom()
+    return randgenerator.randrange(2**(l-1)+1, 2**l - 1)
+\end{minted}
+
+Note that the random number generated is in the range $[2^{l-1}+1, 2^l-1]$ to ensure the correct
+bit-length and to ensure that no extra even numbers are checked. Also note that
+\texttt{first\_primes} is just a file with one list declaration. Files can be imported as modules in
+Python 3 without an \texttt{\_\_init.py\_\_} file.
+
+\begin{minted}{python}
+def low_level_checker(l):
+    '''Check that the random number isn't divisible by the first few primes.'''
+    while True:
+        x = gen_random(l)
+        for divisor in first_primes:
+            if x % divisor == 0 and divisor**2 <= x:
+                break
+        else: return x
+\end{minted}
+
+$n$ is then divided by every number in the first 2000 primes which is less than $\sqrt{n}$. Miller Rabin is then implemented exactly as described mathematically:
+
+\begin{minted}{python}
+def miller_rabin_checker(mrc):
+    '''Run 40 iterations of the Miller-Rabin Primality Test.'''
+    randgenerator = secrets.SystemRandom()
+    max_divisions_by_two = 0
+    y = mrc-1
+    while y % 2 == 0:
+        y >>= 1
+        max_divisions_by_two += 1
+    assert(2**max_divisions_by_two * y == mrc-1)
+
+    def trial_composite(round_tester):
+        if pow(round_tester, y, mrc) == 1:
+            return False
+        for i in range(max_divisions_by_two):
+            if pow(round_tester, 2**i * y, mrc) == mrc-1:
+                return False
+        return True
+    number_of_rabin_trials = 40
+    for i in range(number_of_rabin_trials):
+        round_tester = randgenerator.randrange(2, mrc)
+        if trial_composite(round_tester):
+            return False
+    return True
+\end{minted}
+
+Note that the third argument of Python's \texttt{pow()} function takes an optional argument for the modulus.
+
+Now that there is an implementation for both a low level and a high level checker (Miller-Rabin),
+the last requirement is a driver function to actually generate the prime.
+
+\begin{minted}{python}
+def driver(l):
+    while True:
+        prime_candidate = low_level_checker(l)
+        if not miller_rabin_checker(prime_candidate):
+            continue
+        else:
+            return prime_candidate
+\end{minted}
+
+This driver function keeps generating random numbers until a number passes both the low level
+checker and 40 iterations of Miller-Rabin\footnote{40 iterations were chosen from the reasoning in
+\url{https://stackoverflow.com/a/6330138}}, which means it has an acceptably high probability of
+being prime.
 
 \subsubsection{Mathematics Functions}
+Now that there is a framework for generating the random primes $p$ and $q$, a framework for taking
+the LCM (lowest common multiple) and the modular multiplicative inverse is required.
+
+\paragraph{LCM} For any integers $a$ and $b$, $ab = \mathrm{LCM}(a,b) \times \mathrm{GCD}(a,b)$.
+Calculating the GCD (greatest common divisor or highest common factor) of two numbers is a simple
+recursive algorithm called the (Standard) Euclidean Algorithm. It involves a succession of Euclidean
+divisions (division with remainder).
+
+First, take the larger of $a$ and $b$, the two numbers whose GCD we are to find. Divide the larger
+(say $a$), by the smaller (say $b$). Then, divide $b$ by the remainder of this division. Continue to
+take successive remainders as divisors for the next step and divisors for the former as dividends
+for the latter. Continue this process until a remainder of zero is obtained. The divisor for this
+operation is the GCD. The proof is trivial and well-known, so we skip to the Python implementation.
+
+\begin{minted}{python}
+import sys
+sys.setrecursionlimit(10**6)
+
+def gcd(a,b):
+    if a == 0:
+        return b
+    return gcd(b % a, a)
+\end{minted}
+
+Note that the system recursion limit is increased to $10^6$ to prevent Python's stack overflow
+inhibitor from kicking in for large numbers. While an iterative GCD function could be used,
+recursive functions are funner and simpler to write. In addition, Python uses enough system
+resources that this increase is not too resource-intensive. We do note, however, that Python is not
+a functional language and an iterative implementation is a better choice for real world
+applications.
+
+The LCM is now trivial to calculate by simple division:
+
+\begin{minted}{python}
+def lcm(a,b):
+    return (a*b) // gcd(a,b)
+\end{minted}
+
+`Floor' division is used as opposed to `true' division to prevent integer to float conversion, which
+results in rounding and loss of LSB information.
+
+\paragraph{Modular Multiplicative Inverse}
+The modular multiplicative inverse is calculated using the Extended Euclidean Algorithm, which is
+similar to the Standard Euclidean Algorithm used for calculating the GCD, except that the we use two
+sequences rather than one. In the Standard Euclidean Algorithm the first divisors are represented
+by $r_0 = a$ and $r_1 = b$ with the sequence following through $r_{i+1}=r_{i-1}-q_i r_i$ till
+$r_{k+1} = 0$ and $r_k$ is the GCD.
+
+In the Extended Euclidean Algorithm, the two sequences start with three values each, the first being
+$r_0 = a$, $s_0 = 1$, $t_0 = 0$ and the other $r_1= b$, $s_1=0$, $t_1 = 1$. The sequence is followed
+through $r_{i+1}=r_{i-1}-q_i r_i$, $s_{i+1}=s_{i-1}-q_i s_i$, $t_{i+1}=t_{i-1}-q_i t_i$, until we
+find $r_{k+1} = 0$ and $r_k$ as GCD.
+
+However, $s_k$ and $t_k$ are the Bézout coefficients of $a$ and $b$\footnote{The proof for this
+claim is not within the scope of this paper.}. Bézout's identity is defined as:\footnote{From
+Wikipedia, \url{https://en.wikipedia.org/wiki/B\%C3\%A9zout\%27s_identity}}
+
+\begin{displayquote}
+Bézout's identity — Let $a$ and $b$ be integers with greatest common divisor $d$. Then, there exist
+integers $x$ and $y$ such that $ax + by = d$. More generally, the integers of the form $ax + by$ are
+exactly the multiples of $d$.
+\end{displayquote}
+The Bézout's coefficients can be used to efficiently calculate the modular inverse, thus:
+$ax + by = \mathrm{GCD}(a, b) = 1$ or, $ax - 1 = (-y)b$ or, $$ax \equiv 1 \pmod{b}$$
+
+which completes our task. This algorithm runs in $\mathcal{O}(\log{b^2})$ time. The Python
+implementation of the above two algorithms is as follows:
+
+\begin{minted}{python}
+def eea(a, b):
+    '''Extended Euclidean algorithm'''
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = eea(b % a, a)
+        return (g, x - (b // a) * y, y)
+\end{minted}
+
+which is very similar to the recursive GCD algorithm, albeit with different sequences.
+
+\begin{minted}{python}
+def modinv(a, m):
+    '''Find modular multiplicative inverse using EEA'''
+    g, x, y = eea(a, m)
+    if g != 1:
+        raise Exception('Modular inverse does not exist.')
+    else:
+        return x % m
+\end{minted}
+
+which simply calls \texttt{eea()} and takes the modulus.
+
 \subsubsection{Putting It Together}
+We are now set to generate keys, having all the required functions to do so. This is done as
+outlined in Section~\ref{section:rsamath}. The code is self-explanatory.
+
+\begin{minted}{python}
+import prime_generator as pg
+import math_functions as mf
+
+def gen_keys(bits):
+    p = pg.driver(bits//2)
+    q = pg.driver(bits//2)
+    n = p*q
+    lambda = mf.lcm((p-1), (q-1))
+    e = 65537
+    d = mf.modinv(e, lambda)
+    return [p, q, n, e, d, bits]
+\end{minted}
+
+\texttt{gen\_keys()} takes an argument for the bit-length of the resulting public key $n$, and
+returns a list of the prime factors of $n$, $n$, the public and private keys, and the bit-length of
+the public key. This data will be added to the user database eventually.
 
 \subsection{Primitive RSA Encryption and Decryption}
+
+Now that the keys have been generated, encryption and decryption is merely an exponentiation in
+modulo $n$ as described in Section~\ref{section:rsamath}. The functions can hence be written as:
+\begin{minted}{python}
+def enc(m, e, n):
+    c = pow(m, e, n)
+    return c
+\end{minted}
+
+and,
+
+\begin{minted}{python}
+def dec(c, d, n):
+    m = pow(c, d, n)
+    return m
+\end{minted}
+
+The current implementation can be improved by using the Chinese Remainder Algorithm to speed up the
+decryption process.
+
 \subsubsection{Chinese Remainder Algorithm for Fast Decryption}
+The Chinese Remainder Algorithm is a generalisation of the method used to solve problems such as:
+\begin{displayquote}
+There are certain things whose number is unknown. If we count them by threes, we have two left over;
+by fives, we have three left over; and by sevens, two are left over. How many things are there?
+\end{displayquote}
+We use the following optimisation to decrypt, based on the general Chinese Remainder Theorem. The
+following values are precomputed and stored as part of the private key:
+\begin{enumerate}
+\item $p$ and $q$: the primes from generation.
+\item $d_P = d \pmod{p-1}$
+\item $d_Q = d \pmod{p-1}$
+\item $q_{inv} = q^{-1} \pmod{p}$
+\end{enumerate}
+
+We then use these four values to calculate the $c^d \pmod{pq}$ thus:
+\begin{enumerate}
+\item $m_1 = c^{d_P} \pmod{p}$
+\item $m_2 = c^{d_Q} \pmod{q}$
+\item If $m_1 > m_2$: $$h = q_{inv}(m_1 - m_2)$$
+\item Else: $$h = q_{inv}[(m_1 + \left \lceil{\frac{q}{p}}\right \rceil p) - m_2] \pmod{p}$$
+\item $m = m_2 + hq \pmod{pq}$
+\end{enumerate}
+
+This algorithm derives its efficiency from calculating two small modular exponentiations rather than
+one large one. The Python implementation is as follows:
+\begin{minted}{python}
+def cra(c, p, q, d_p, d_q, q_inv):
+    '''Chinese Remainder Algorithm'''
+    m_1 = pow(c, d_p, p)
+    m_2 = pow(c, d_q, q)
+    if m_1 >= m_2:
+        h = q_inv*(m_1-m_2) % p
+    else:
+        h = q_inv*((m_1 + (ceil(q/p))*p) - m_2) % p
+    return pow((m_2 + h*q), 1, p*q)
+\end{minted}
 
 \subsection{ASCII to Integer via Octet Streams and Back}
 \subsubsection{PT2OS}
@@ -481,16 +730,13 @@ Linux.} We first implement a low level checker:
 
 \newpage
 
-\section{Experiment}
-
-\newpage
-
 \section{Results}
 
 \newpage
 
 \section{Author's Note}
-
+\subsection{Tools}
+\subsection{This Paper}
 This paper is written as a submission to the Central Board of Secondary Education (India) as a
 Informatics Practices Investigatory Project for the year 2020-21. \\
 It was noticed by the author of this paper that generally, investigatory projects, which are an
@@ -508,6 +754,11 @@ I thank you for taking the time to go through this paper, and I hope you enjoyed
 as I enjoyed writing it.\\
 
 \newpage
+
+\section{Source Code}
+% Add a listing.
+\newpage
+
 
 \printbibliography
 \addcontentsline{toc}{section}{References}

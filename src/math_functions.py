@@ -1,5 +1,4 @@
 import sys
-# print(sys.getrecursionlimit())
 sys.setrecursionlimit(10**6)
 from math import ceil
 
@@ -19,27 +18,23 @@ def gcd(a,b):
 def lcm(a,b):
     return (a*b) // gcd(a,b)
 
-def egcd(a, b):
+def eea(a, b):
     '''Extended Euclidean algorithm'''
     if a == 0:
         return (b, 0, 1)
     else:
-        g, y, x = egcd(b % a, a)
+        g, y, x = eea(b % a, a)
         return (g, x - (b // a) * y, y)
 
 def modinv(a, m):
     '''Find modular multiplicative inverse using EEA'''
-    g, x, y = egcd(a, m)
+    g, x, y = eea(a, m)
     if g != 1:
         raise Exception('Modular inverse does not exist.')
     else:
         return x % m
-def cra(c, d, p, q):
+def cra(c, p, q, d_p, d_q, q_inv):
     '''Chinese Remainder Algorithm'''
-    d_p = d % (p-1)
-    d_q = d % (q-1)
-    q_inv = modinv(q, p)
-
     m_1 = pow(c, d_p, p)
     m_2 = pow(c, d_q, q)
     if m_1 >= m_2:

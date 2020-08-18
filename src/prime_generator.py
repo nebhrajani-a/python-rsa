@@ -1,25 +1,22 @@
 import first_primes as fp
 import secrets
 
-first_primes = fp.first_primes
-
 def gen_random(l):
-    '''Generate a random number l digits long.'''
+    '''Generate a random number l bits long.'''
     randgenerator = secrets.SystemRandom()
     return randgenerator.randrange(2**(l-1)+1, 2**l - 1)
 
 def low_level_checker(l):
     '''Check that the random number isn't divisible by the first few primes.'''
-    e = 65537
     while True:
         x = gen_random(l)
-        for divisor in first_primes:
+        for divisor in fp.first_primes:
             if x % divisor == 0 and divisor**2 <= x:
                 break
         else: return x
 
 def miller_rabin_checker(mrc):
-    '''Run 20 iterations of the Miller-Rabin Primality Test.'''
+    '''Run 40 iterations of the Miller-Rabin Primality Test.'''
     randgenerator = secrets.SystemRandom()
     max_divisions_by_two = 0
     y = mrc-1

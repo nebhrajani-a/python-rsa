@@ -18,15 +18,18 @@ def gen_keys(bits):
     p = pg.driver(bits//2)
     q = pg.driver(bits//2)
     n = p*q
-    phi = mf.lcm((p-1), (q-1))
+    lambda_ = mf.lcm((p-1), (q-1))
     e = 65537
-    d = mf.modinv(e, phi)
-    return [p, q, n, e, d, bits]
+    d = mf.modinv(e, lambda_)
+    d_p = d % (p-1)
+    d_q = d % (q-1)
+    q_inv = mf.modinv(q, p)
+    return [p, q, n, e, d_p, d_q, q_inv, bits]
 
 def enc(m, e, n):
     c = pow(m, e, n)
     return c
 
-def dec(c, d, p, q):
-    m = mf.cra(c, d, p, q)
+def dec(c, p, q, d_p, d_q, q_inv):
+    m = mf.cra(c, p, q, d_p, d_q, q_inv)
     return m

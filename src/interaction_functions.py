@@ -108,10 +108,12 @@ def get_encrypt_list(user):
     return [bits, e, n]
 def get_decrypt_list(user):
     bits = ud.get_field(user, 'bits')
-    d = ud.get_field(user, 'd')
     p = ud.get_field(user, 'p')
     q = ud.get_field(user, 'q')
-    return [bits, d, p, q]
+    d_p = ud.get_field(user, 'd_p')
+    d_q = ud.get_field(user, 'd_q')
+    q_inv = ud.get_field(user, 'q_inv')
+    return [bits, p, q, d_p, d_q, q_inv]
 def del_user():
     user = login()
     ud.drop_row(user)

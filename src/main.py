@@ -48,9 +48,11 @@ while True:
             output_file = intfunc.get_output_file()
             dec_data = intfunc.get_decrypt_list(user)
             bits = dec_data[0]
-            d = dec_data[1]
-            p = dec_data[2]
-            q = dec_data[3]
+            p = dec_data[1]
+            q = dec_data[2]
+            d_p = dec_data[3]
+            d_q = dec_data[4]
+            q_inv = dec_data[5]
             chunk_size = (bits//8) - 1
             open(output_file, 'w+').close()
             with open(input_file) as fin:
@@ -60,7 +62,7 @@ while True:
             f =  open(output_file, 'a')
             bar = IncrementalBar('Decrypting...', max=len(list_of_chunks))
             for data in list_of_chunks:
-                data = rsa.dec(int(data), d, p, q)
+                data = rsa.dec(int(data), p, q, d_p, d_q, q_inv)
                 data = dcp.I2OSP(data, chunk_size)
                 data = dcp.OS2PT(data)
                 print(data, end='', file=f)
