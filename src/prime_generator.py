@@ -1,4 +1,3 @@
-import math_functions as mf
 import first_primes as fp
 import secrets
 
@@ -17,8 +16,6 @@ def low_level_checker(l):
         for divisor in first_primes:
             if x % divisor == 0 and divisor**2 <= x:
                 break
-        # if mf.gcd(x - 1, e) != 1:
-        #     break
         else: return x
 
 def miller_rabin_checker(mrc):
@@ -38,7 +35,7 @@ def miller_rabin_checker(mrc):
             if pow(round_tester, 2**i * y, mrc) == mrc-1:
                 return False
         return True
-    number_of_rabin_trials = 20
+    number_of_rabin_trials = 40
     for i in range(number_of_rabin_trials):
         round_tester = randgenerator.randrange(2, mrc)
         if trial_composite(round_tester):
@@ -52,4 +49,3 @@ def driver(l):
             continue
         else:
             return prime_candidate
-            break
