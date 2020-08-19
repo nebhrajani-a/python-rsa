@@ -80,9 +80,11 @@ while True:
         chunk_size = (bits//8) - 1
         dec_data = intfunc.get_decrypt_list(user)
         bits = dec_data[0]
-        d = dec_data[1]
-        p = dec_data[2]
-        q = dec_data[3]
+        p = dec_data[1]
+        q = dec_data[2]
+        d_p = dec_data[3]
+        d_q = dec_data[4]
+        q_inv = dec_data[5]
 
         m = str(input("Enter a string: "))
         m = dcp.PT2OS(m, chunk_size)
@@ -90,7 +92,7 @@ while True:
 
         c = rsa.enc(m, e, n)
         print("Encrypted string is:", m)
-        m = rsa.dec(c, d, p, q)
+        m = rsa.dec(c, p, q, d_p, d_q, q_inv)
 
         m = dcp.I2OSP(m, chunk_size)
         m = dcp.OS2PT(m)

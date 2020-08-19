@@ -8,7 +8,7 @@ def read_table():
     return pd.read_pickle("usr_data.pkl")
 if not path.exists("usr_data.pkl"):
     usr_data = pd.DataFrame(columns = ['username', 'password', 'p', 'q', 'n', 'e', 'd_p', 'd_q', 'q_inv', 'bits'])
-    usr_data.loc[0] = ['root', '0', 0, 0, 0, 0, 0, 0, 0, '0']
+    usr_data.loc[0] = ['root', 0, 0, 0, 0, 0, 0, 0, 0, 0]
     save_table(usr_data)
 
 

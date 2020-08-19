@@ -36,8 +36,7 @@ def I2OSP(x, l):
     X.append(x)
     return X[::-1]
 def read_in_chunks(file_object, chunk_size):
-    """Lazy function (generator) to read a file piece by piece.
-    Default chunk size: 1k."""
+    '''Lazy function (generator) to read a file piece by piece.'''
     while True:
         data = file_object.read(chunk_size)
         if not data:
