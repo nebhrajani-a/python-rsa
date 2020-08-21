@@ -1,6 +1,6 @@
 # RSA Pure Python Implementation
 
-This project is a pure Python implementation of RSA, OS2IP, and I2OSP.
+This project is a pure Python 3 implementation of RSA, OS2IP, and I2OSP.
 **Note that this implementation does not include OAEP at the present,
 but is expected to be added.**
 
@@ -8,7 +8,7 @@ but is expected to be added.**
 - Pure Python RSA Implementation.
 - Uses Miller Rabin to generate primes, along with Python
   ```secrets``` module.
-- **File chunking**, can encrypt and decrypt files of arbitrary length
+- **File chunking, can encrypt and decrypt files of arbitrary length**
   by breaking it into chunks and joining it back.
 - Uses a Pandas DataFrame as a database backend.
 - Has a CLI and user login system.
@@ -19,6 +19,7 @@ but is expected to be added.**
 - Run ```python main.py```.
 
 ## Dependencies
+- Only runs on Python 3.
 - ```progress``` to draw progress bars.
 
 ## Limitations
