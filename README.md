@@ -13,6 +13,7 @@ but is expected to be added.**
 - Uses a Pandas DataFrame as a database backend.
 - Has a CLI and user login system.
 - Portable to any machine that runs Python.
+- Pretty fast.
 
 ## Installation
 - Clone this directory and ```cd``` to ```/src```. 

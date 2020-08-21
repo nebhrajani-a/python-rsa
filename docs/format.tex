@@ -187,7 +187,7 @@ number of places down the alphabet. The cipher illustrated here uses a left shif
 In this case, the `key' would be the number of places to shift each letter by, or the `shift'. The
 Caesar cipher, like many others of its time, was broken by frequency analysis: given a long enough
 sample of the ciphertext, a cryptanalyst could replace the most frequently occurring letter by the
-one used most in the English alphabet (`e'), or the second most used (`t'), and so one. By trial and
+one used most in the English alphabet (`e'), or the second most used (`t'), and so on. By trial and
 error, the original message is soon revealed. In fact, the cipher of Mary Queen of Scots was broken
 by frequency analysis by a cryptanalyst called Thomas Phelippes. Once the cipher was broken, the
 Babington plot was revealed, and she was executed, with the cracked cipher being the central
@@ -727,7 +727,7 @@ We then use these four values to calculate the $c^d \pmod{pq}$ thus:
 \begin{enumerate}
 \item $m_1 = c^{d_P} \pmod{p}$
 \item $m_2 = c^{d_Q} \pmod{q}$
-\item If $m_1 > m_2$: $$h = q_{inv}(m_1 - m_2)$$
+\item If $m_1 > m_2$: $$h = q_{inv}(m_1 - m_2) \pmod{p}$$
 \item Else: $$h = q_{inv}[(m_1 + \left \lceil{\frac{q}{p}}\right \rceil p) - m_2] \pmod{p}$$
 \item $m = m_2 + hq \pmod{pq}$
 \end{enumerate}
