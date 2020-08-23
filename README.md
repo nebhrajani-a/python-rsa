@@ -26,3 +26,4 @@ but is expected to be added.**
 ## Limitations
 - Does not use OAEP.
 - Only supports ASCII, no Unicode support.
+- Does not have an explicit signing feature.
