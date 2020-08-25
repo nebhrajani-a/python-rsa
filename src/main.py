@@ -5,6 +5,7 @@ import interaction_functions as intfunc
 from progress.bar import IncrementalBar
 import sys
 
+
 state = intfunc.login_or_signup()
 if state == 1:
     data = intfunc.signup_core()
