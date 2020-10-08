@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[twoside]{article}
 %-------------------------------------------------------------------------------------------------%
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -27,6 +27,7 @@
     breaklines,
     autogobble,
 }
+
 %-------------------------------------------------------------------------------------------------%
 \graphicspath{ {./images/} }
 \addbibresource{format.bib}
@@ -62,7 +63,7 @@
 \maketitle
 \thispagestyle{empty}
 
-\newpage
+\cleardoublepage
 
 
 {\center\includegraphics[scale = 0.5]{tos_logo.jpeg}\\[0.25in]} {\center\LARGE The Orchid School\\}
@@ -80,8 +81,8 @@ Kulkarni) & (Namrata Majhail) \\
 \end{tabularx}
 \end{center}
 
-\newpage
 
+\cleardoublepage
 \section*{Acknowledgements}
 \addcontentsline{toc}{section}{Acknowledgements}
 
@@ -104,16 +105,18 @@ https://stackexchange.com/} communities for their powerful -- and open source --
 Lastly, I would like to thank my parents for their love and guidance without which nothing can be
 accomplished.
 
-\newpage
+\cleardoublepage
 \tableofcontents
 
-\newpage
+\cleardoublepage
 \listoffigures
+
+\cleardoublepage
 \renewcommand\listoflistingscaption{Source Code Listings}
 \listoflistings
 \addcontentsline{toc}{section}{Source Code Listings}
+\cleardoublepage
 
-\newpage
 \section{Introduction}
 Democratic governments the world over have a similar system of guaranteeing rights to people.
 However, one right which is still not guaranteed by most is the right to privacy. Prior to the
@@ -150,7 +153,8 @@ use encryption. It's written in Python, which makes it easy to port or include i
 applications. The interactive CLI and Pandas database are merely for demonstration purposes.
 Ideally, this project should be used as a module or as part of a larger communication application.
 
-\newpage
+
+\cleardoublepage
 
 \section{Cryptography}
 
@@ -344,7 +348,8 @@ The following is a simple proof of concept of RSA.
 \item Now, decrypting, $$m \equiv c^d \equiv 13^7 \pmod{33} = 7$$ We hence retrieve the original message.
 \end{enumerate}
 
-\newpage
+
+\cleardoublepage
 
 \section{Python Implementation}
 We now focus on building a complete RSA system in Python (3.6) that is capable of generating keys,
@@ -1528,7 +1533,8 @@ To exit:
 \caption{Main Exit}
 \end{longlisting}
 
-\newpage
+\cleardoublepage
+
 
 \section{Results}
 The results in this section are sandbox tested on an Anaconda 3 install of Python on Microsoft
@@ -1771,7 +1777,8 @@ write an email to \href{mailto: aditya.v.nebhrajani@gmail.com}{aditya.v.nebhraja
 
 
 
-\newpage
+\cleardoublepage
+
 \section{Author's Note}
 \subsection{Public Key Cryptography Standard}
 This tool implements the greater part of the PKCS (Public Key Cryptography Standard), with the
@@ -1822,12 +1829,19 @@ I thank you for taking the time to go through this paper, and I hope you enjoyed
 as I enjoyed writing it.\\
 
 
-\newpage
+\cleardoublepage
+
 
 \section{Source Code by File}
 This section directly highlights and prints from the \texttt{/src} directory. Other code snippets in
 this document are static. If there is a change in source code, expect it to show up here first and
 elsewhere in this document later.
+\begin{verbatim}
+ip_project/
+|-- docs
+|-- README.md
+|-- src
+\end{verbatim}
 
 \subsection{prime\_generator.py}
 \begin{longlisting}
@@ -1878,7 +1892,8 @@ elsewhere in this document later.
 \end{longlisting}
 
 
-\newpage
+\cleardoublepage
+
 
 \printbibliography
 \addcontentsline{toc}{section}{References}
