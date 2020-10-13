@@ -20,6 +20,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{minted}
+\usepackage{multicol}
 \usepackage{listings}
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
 \usemintedstyle{emacs}
@@ -1802,12 +1803,32 @@ specified by PKCS.
 I am deeply indebted to the Python community and the creator of \texttt{progress}. While Python
 is not functional and too high level for an application like this one, the fact that it could do it
 this well, acting as both front end and back end (Pandas), makes it an excellent and powerful tool.
-I hope to eventually implement a much better encryption/decryption tool in C to improve performance.
+I hope to eventually implement a much better encryption/decryption tool in C to improve performance.\\
 \footnote{Personally, I prefer statically typed, compiled languages with delimiters. In case the
 source code of this project can be more Pythonic, please do let me know. There are many places where
 I opted to write functions that could've been imported from various modules, since I believe the
 only way to truly understand that code one writes is building it from scratch. Also, it increases
 the translatablity of the code to languages with different libraries.} \\
+
+The complete list of tools is:
+\begin{multicols}{3}
+\begin{itemize}
+\item Foxconn Core i7 NanoPC.
+\item Linux Mint 19.3 XFCE 64-bit.
+\item GNU Emacs 25.2.2 (x86\_ 64-pc-linux-gnu, GTK+ Version 3.22.21),
+  modified by Debian.
+\item Python 3.6.9 from Debian repositories.
+\item \LaTeX\ for documentation. pdf\TeX\ 3.14159265-2.6-1.40.18, from
+  TeX Live 2017/Debian.
+\item \LaTeX\ package \texttt{minted} for code highlighting.
+\item Emacs \texttt{org-mode} 9.3.6, GNU ELPA.
+\item GNU CLISP 2.49.60+ for some scripts.
+\item VirtualBox 5.2.42 for sandbox.
+\item Evince 2.4.4.
+\end{itemize}
+\end{multicols}
+
+
 % Finally, the paper you are reading is formatted using \LaTeX, whose versatility and neat language
 % are rivalled only by Emacs itself.
 
