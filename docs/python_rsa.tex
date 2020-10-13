@@ -1,9 +1,13 @@
-\documentclass[twoside]{article}
+\documentclass[titlepage]{article}
 %-------------------------------------------------------------------------------------------------%
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{biblatex}
-\usepackage[a4paper, total={6in, 9.5in}]{geometry}
+\usepackage[a4paper, total={6in, 9.5in}, twoside]{geometry}
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
 \usepackage[T1]{fontenc}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{multicol}
@@ -31,7 +35,7 @@
 
 %-------------------------------------------------------------------------------------------------%
 \graphicspath{ {./images/} }
-\addbibresource{format.bib}
+\addbibresource{python_rsa.bib}
 %-------------------------------------------------------------------------------------------------%
 \renewcommand\cftsecpagefont{\normalfont}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
