@@ -22,6 +22,7 @@ but is expected to be added.**
 ## Dependencies
 - Only runs on Python 3.
 - ```progress``` to draw progress bars.
+- ```pandas``` for backend.
 
 ## Limitations
 - Does not use OAEP.
