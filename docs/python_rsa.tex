@@ -16,7 +16,7 @@
 \usepackage{titling}
 \usepackage{tocloft}
 \usepackage[labelfont=bf]{caption}
-\captionsetup{belowskip=15pt, aboveskip=0pt}
+\captionsetup{belowskip=15pt, aboveskip=5pt}
 \usepackage{subcaption}
 \usepackage{hologo}
 \usepackage[hidelinks]{hyperref}
@@ -1467,20 +1467,22 @@ elif operation == 2:
     chunk_size = (bits//8) - 1
     dec_data = intfunc.get_decrypt_list(user)
     bits = dec_data[0]
-    d = dec_data[1]
-    p = dec_data[2]
-    q = dec_data[3]
+    p = dec_data[1]
+    q = dec_data[2]
+    d_p = dec_data[3]
+    d_q = dec_data[4]
+    q_inv = dec_data[5]
 
-    m = str(input("Enter a string: "))
-    m = dcp.PT2OS(m, chunk_size)
-    m = dcp.OS2IP(m)
+    m = str(input("enter a string: "))
+    m = dcp.pt2os(m, chunk_size)
+    m = dcp.os2ip(m)
 
     c = rsa.enc(m, e, n)
-    print("Encrypted string is:", m)
-    m = rsa.dec(c, d, p, q)
+    print("encrypted string is:", m)
+    m = rsa.dec(c, p, q, d_p, d_q, q_inv)
 
-    m = dcp.I2OSP(m, chunk_size)
-    m = dcp.OS2PT(m)
+    m = dcp.i2osp(m, chunk_size)
+    m = dcp.os2pt(m)
     print("Decrypted string is:", m)
 \end{minted}
 \caption{Main String Encryption and Decryption}
