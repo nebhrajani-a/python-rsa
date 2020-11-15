@@ -1454,7 +1454,6 @@ the input and output files, and clear the output file. Then, read the input file
 Decrypt each element in the list, add it to the output file, and close the output file. Then, kill
 the nulls in the last chunk and exit.
 
-
 \paragraph{String Encryption}
 To encrypt a string using the user's own public key and decrypt it:
 \begin{longlisting}
@@ -1473,12 +1472,12 @@ elif operation == 2:
     d_q = dec_data[4]
     q_inv = dec_data[5]
 
-    m = str(input("enter a string: "))
+    m = str(input("Enter a string: "))
     m = dcp.pt2os(m, chunk_size)
     m = dcp.os2ip(m)
 
     c = rsa.enc(m, e, n)
-    print("encrypted string is:", m)
+    print("Encrypted string is:", m)
     m = rsa.dec(c, p, q, d_p, d_q, q_inv)
 
     m = dcp.i2osp(m, chunk_size)

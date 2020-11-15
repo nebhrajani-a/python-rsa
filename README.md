@@ -19,6 +19,10 @@ but is expected to be added.**
 - Clone this directory and ```cd``` to ```/src```. 
 - Run ```python main.py```.
 
+    > Your system may run Python 2 instead of 3 using the `python` command.
+    > Make sure `python` runs Python 3. On some systems, you'll have to run
+    > `python3` explicitly.
+
 ## Dependencies
 - Only runs on Python 3.
 - ```progress``` to draw progress bars.
