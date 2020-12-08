@@ -599,7 +599,7 @@ Note that the system recursion limit is increased to $10^6$ to prevent Python's 
 inhibitor from kicking in for large numbers. While an iterative GCD function could be used,
 recursive functions are funner and simpler to write. In addition, Python uses enough system
 resources that this increase is not too resource-intensive. We do note, however, that Python is not
-a functional language and an iterative implementation is a better choice for real world
+a very fast language and an iterative implementation is a better choice for real world
 applications.
 
 The LCM is now trivial to calculate by simple division:
@@ -1804,7 +1804,7 @@ specified by PKCS.
 % machines since I don't own any. VirtualBox brings virtualisation to anybody who may desire it, and
 % behaves better than even Parallels desktop.\\
 I am deeply indebted to the Python community and the creator of \texttt{progress}. While Python
-is not functional and too high level for an application like this one, the fact that it could do it
+is not very fast and too high level for an application like this one, the fact that it could do it
 this well, acting as both front end and back end (Pandas), makes it an excellent and powerful tool.
 I hope to eventually implement a much better encryption/decryption tool in C to improve performance.
 \footnote{Personally, I prefer statically typed, compiled languages with delimiters. In case the
