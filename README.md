@@ -1,5 +1,11 @@
 # RSA Pure Python Implementation
 
+:warning: This program is for demonstration purposes _only_ and is not
+suitable for real-world encryption. If that's your use-case, and you
+require free software, try [GnuPG](https://gnupg.org/), a free
+implementation of the OpenPGP standard.
+
+
 This project is a pure Python 3 implementation of RSA, OS2IP, and I2OSP.
 **Note that this implementation does not include OAEP at the present,
 but is expected to be added.**
