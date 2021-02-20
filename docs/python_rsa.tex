@@ -11,8 +11,11 @@
 \usepackage[T1]{fontenc}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{multicol}
+\usepackage{makecell}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
 \usepackage{titling}
 \usepackage{tocloft}
 \usepackage[labelfont=bf]{caption}
@@ -32,7 +35,6 @@
     breaklines,
     autogobble,
 }
-
 %-------------------------------------------------------------------------------------------------%
 \graphicspath{ {./images/} }
 \addbibresource{python_rsa.bib}
@@ -43,23 +45,27 @@
 % \renewcommand\cftsubsecdotsep{\cftdot}
 % \pretitle{
 %   \begin{center}
+% \includegraphics[scale = 0.45]{tos_logo.jpeg}\\
+% {\Large \bfseries The Orchid School, Pune}\\[0.5in]
+% {\Large A Project Report On}\\
 %     \Huge\bfseries }
 % \renewcommand\maketitlehookb{
 %   \begin{center}
-%     \Large {An Investigatory Project Report}\\[0.25in] \includegraphics[scale =
-%       0.75]{tos_logo.jpeg}\\[0.25in] \bfseries {Submitted by}
+% For AISSCE 2021 Examination\\
+% As a part of the Informatics Practices Course (065)\\[0.5in]
+%       \bfseries {\large Submitted by}
 %   \end{center}
 % }
 % \predate{}
 % \postdate{}
 % \renewcommand\maketitlehookd{
 %   \begin{center}
-%     \large{ The Orchid School\\ Baner Pune 411045\\[0.3cm] \textbf{2020-2021}\\ }
+%     \large{ Under the Guidance of\\ Ms. Jayashri Samudra\\[0.3cm] \textbf{2020-2021}\\ }
 %   \end{center}
 % }
 %-------------------------------------------------------------------------------------------------%
 \title{RSA Encryption Tool}
-\author{ Nebhrajani, Aditya V.}%\\ Magapu,Abhimanyu\\ Sharma, Galav\\ }
+\author{ Nebhrajani, Aditya V.}
 \date{}
 %-------------------------------------------------------------------------------------------------%
 
@@ -70,34 +76,49 @@
 
 % \cleardoublepage
 
+% \vspace*{1.7in}
+% % {\center\includegraphics[scale = 0.5]{tos_logo.jpeg}\\[0.25in]} {\center\LARGE The Orchid School\\}
+% {\center\huge\textbf {Certificate}\\[0.5in]}
 
-% {\center\includegraphics[scale = 0.5]{tos_logo.jpeg}\\[0.25in]} {\center\LARGE The Orchid School\\}
-% {\center\huge\textbf {Certificate}\\[0.5cm]}
+% This is to certify that the project entitled \textbf{RSA Encryption
+%   Tool} is a bonafide work done by Mr. Aditya V. Nebhrajani of class XII session 2020-21 in partial fulfilment of CBSE's Examination 2021 for the subject Informatics Practices (065) and has been carried out under my guidance. \\
 
-% This is to certify that Aditya V. Nebhrajani of Class XII I1 has successfully completed the Informatics Practices
-% Investigatory Project in the partial fulfillment of curriculum of Central Board of Secondary
-% Education (CBSE) leading to award of Annual Examination of the year 2020-2021.\\[1cm]
-
+% This report or a similar report on the topic has not been submitted for any other examination and does not form a part of any other course undergone by the candidate.\\[1.5cm]
 
 % \begin{center}
 % \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X  >{\centering\arraybackslash}X}
-% External Examiner & Teacher In-Charge \\ & (Jayashree Samudra)\\[1.5cm] Unit Head & Principal \\ (Netre
-% Kulkarni) & (Namrata Majhail) \\
+% Student & Teacher In-Charge \\ (Mr. Aditya V. Nebhrajani)& (Ms.
+% Jayashri Samudra)\\[1.5cm] Unit Head & Acting Principal \\ (Ms. Netre
+% Kulkarni) & (Ms. Sangeeta Kapoor) \\
 % \end{tabularx}
 % \end{center}
+% \vspace*{1.5cm}
+% \begin{center}
+%   External Examiner
+% \end{center}
 
+% \vspace*{1cm}
+% \textbf{Place: } The Orchid School, Pune. \hfill \textbf{Date}:~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \cleardoublepage
 \section*{Acknowledgements}
 \addcontentsline{toc}{section}{Acknowledgements}
 
 No project can ever be completed without the graceful contribution of many, many people.\\
+% I undertook this project, as the of my grade XII Informatics
+% Practices (065) course. I tried to apply the best of my knowledge and
+% experience gained during study and class work.
+% However, developing software system is generally a quite complex and
+% time-consuming process. It requires a systematic study, insight, vision,
+% and professional approach during the design and development.
+% Moreover, the developer always requires the help and good wishes of
+% the people around who have considerable experience and novel ideas.
 
-% I would, first and foremost, like to express my gratitude to our IP teacher, Ms. Jayashree Samudra
-% for her valuable advice and inputs which enhanced the quality of my work. This project could not
-% have been completed successfully without her help. I would also like to thank Netre Di for her
-% encouragement and support, and our respected principal Namrata Di for giving me an opportunity to
-% work on such an intriguing topic. \\
+% I would like to extend my sincere thanks and gratitude to my teacher
+% Ms. Jayashri Samudra for guiding us throughout the life cycle of
+% Software Development.
+% I would like to take the opportunity to extend my sincere thanks and gratitude to my Unit Head Ms. Netre Kulkarni for giving valuable time and moral support to develop this software.
+% I am very much thankful to our Acting Principal Ms. Sangeeta Kapoor for being a source of inspiration.
 
 This entire project was written on open source software, using open source programming and markup
 languages. I am hence deeply indebted to the open source community at large. I would like to
@@ -161,7 +182,7 @@ Ideally, this project should be used as a module or as part of a larger communic
 
 \cleardoublepage
 
-\section{Cryptography}
+\section{Objective and Scope: On Cryptography}
 
 \subsection{In History}
 Since time immemorial, kings, queens, and armies have relied on the privacy of their communications
@@ -387,7 +408,7 @@ This program is written to be platform independent, using Python implementations
 than (possibly simpler) alternatives like command line calls. It's been tested on a machine running
 Linux Mint 19.3 (XFCE 64-bit) and in two Microsoft Windows virtual machines (7 and 10), and behaves
 as expected. If you think you are experiencing bugs, please write an email to \href{mailto:
-aditya.v.nebhrajani@gmail.com}{aditya.v.nebhrajani@gmail.com}.
+nebhrajani@protonmail.com}{nebhrajani@protonmail.com}.
 
 
 \subsubsection{Executing}
@@ -1542,7 +1563,7 @@ To exit:
 \cleardoublepage
 
 
-\section{Results}
+\section{Manual and Results}
 The results in this section are sandbox tested on an Anaconda 3 install of Python on Microsoft
 Windows 7 and 10, and on the standard Python 3 install on modern Linux systems.
 
@@ -1755,11 +1776,21 @@ encryption of \texttt{file.txt}. We run:
 \begin{verbatim}
 aditya@ganga:~$ for i in {1..10}; do time python3 enc_test.py; done
 \end{verbatim}
-The encryption tests take times between 10.2 and 10.8 seconds, as shown in the graph.
+The encryption tests take times between 10.2 and 10.8 seconds, as shown in the graph.\\[1cm]
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.25]{eg.png}
+  \begin{tikzpicture}
+    \begin{axis}[
+      xlabel={Test Number}, ylabel={Time}, legend pos=north west]
+
+      \addplot[color=black, mark=*] coordinates {
+        (1,10.32)(2,10.3)(3,10.41)(4,10.42)(5,10.395)(6,10.39)(7,10.375)(8,10.52)(9,10.35)(10,10.73)};
+      \legend{Time per test}
+    \end{axis}
+  \end{tikzpicture}
+
+  % \includegraphics[scale=0.25]{eg.png}
   \caption{Encryption Time Graph}
 \end{figure}
 
@@ -1775,11 +1806,22 @@ aditya@ganga:~$ for i in {1..5}; do time python3 dec_test.py; done
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.25]{dg.png}
+  \begin{tikzpicture}
+    \begin{axis}[
+      xlabel={Test Number}, ylabel={Time}, legend pos=north west]
+
+      \addplot[color=black, mark=*] coordinates {
+        (1,158.27)(2,158.38)(3,158.32)(4,158.15)(5,158.85)};
+      \legend{Time per test}
+    \end{axis}
+  \end{tikzpicture}
+
+
+  % \includegraphics[scale=0.25]{dg.png}
   \caption{Decryption Time Graph}
 \end{figure}
 We have now completely tested the system created. In case of any discrepancies or improvements,
-write an email to \href{mailto: aditya.v.nebhrajani@gmail.com}{aditya.v.nebhrajani@gmail.com}.
+write an email to \href{mailto: nebhrajani@protonmail.com}{nebhrajani@protonmail.com}.
 
 \cleardoublepage
 
@@ -1917,7 +1959,6 @@ ip_project/
 
 
 \cleardoublepage
-
 
 \printbibliography
 \addcontentsline{toc}{section}{References}
